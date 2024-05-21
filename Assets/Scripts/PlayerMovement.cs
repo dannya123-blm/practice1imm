@@ -5,13 +5,17 @@ public class PlayerMovement : MonoBehaviour
     public float speed = 6.0f; // Movement speed
     public float gravity = -9.81f; // Gravity force
     public float jumpHeight = 3.0f; // Jump height
+
     private CharacterController controller; // Reference to the CharacterController component
     private Vector3 velocity; // Store the player's velocity
+    private Animator animator; // Reference to the Animator component
 
     void Start()
     {
         // Get the CharacterController component attached to the player
         controller = GetComponent<CharacterController>();
+        // Get the Animator component attached to the player
+        animator = GetComponent<Animator>();
     }
 
     void Update()
@@ -32,10 +36,14 @@ public class PlayerMovement : MonoBehaviour
         // Apply the movement to the CharacterController
         controller.Move(move * speed * Time.deltaTime);
 
-        // Jump logic (optional)
+        // Update the Animator parameters based on movement
+        animator.SetFloat("Speed", move.magnitude);
+
+        // Jump logic
         if (Input.GetButtonDown("Jump") && controller.isGrounded)
         {
             velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+            animator.SetTrigger("Jump");
         }
 
         // Apply gravity to the player
@@ -43,5 +51,8 @@ public class PlayerMovement : MonoBehaviour
 
         // Apply the gravity movement to the CharacterController
         controller.Move(velocity * Time.deltaTime);
+
+        // Update grounded state in Animator
+        animator.SetBool("IsGrounded", controller.isGrounded);
     }
 }

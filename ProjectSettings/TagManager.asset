@@ -6,6 +6,9 @@ TagManager:
   tags:
   - Enemy
   - MazeGeo
+  - Key
+  - door
+  - Door
   layers:
   - Default
   - TransparentFX
