@@ -38,6 +38,7 @@ public class PlayerMovement : MonoBehaviour
 
         // Update the Animator parameters based on movement
         animator.SetFloat("Speed", move.magnitude);
+        animator.SetBool("isMoving", move.magnitude > 0);
 
         // Jump logic
         if (Input.GetButtonDown("Jump") && controller.isGrounded)
