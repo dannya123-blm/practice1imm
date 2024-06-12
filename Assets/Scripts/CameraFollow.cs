@@ -2,21 +2,22 @@ using UnityEngine;
 
 public class CameraFollow : MonoBehaviour
 {
-    public Transform target; // The target that the camera will follow (your player)
-    public Vector3 offset; // The offset distance between the camera and the target
-    public float smoothSpeed = 0.125f; // The speed at which the camera will smooth
+    public Transform player; // Reference to the player's transform
+    public Vector3 offset; // Offset position from the player
+    public float smoothSpeed = 0.125f; // Smooth speed for the camera
 
-    void FixedUpdate()
+    void Start()
     {
-        if (target != null)
+        // Set the initial position of the camera
+        transform.position = player.position + offset;
+    }
+
+    void LateUpdate()
+    {
+        if (player != null)
         {
-            // Desired position based on the target's position and the offset
-            Vector3 desiredPosition = target.position + offset;
-
-            // Smoothly interpolate between the camera's current position and the desired position
+            Vector3 desiredPosition = player.position + offset;
             Vector3 smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed);
-
-            // Set the camera's position to the smoothed position
             transform.position = smoothedPosition;
         }
     }
